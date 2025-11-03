@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
-from data_loader import parse_mendeley_problem_machine_major
+from data_loader import parse_problem_machine_major
 from run_ep import run_ep
 
 if __name__ == "__main__":
-    problem_data = parse_mendeley_problem_machine_major()
+    problem_data = parse_problem_machine_major()
     if not problem_data:
         print("Exiting due to data loading error.")
         exit()

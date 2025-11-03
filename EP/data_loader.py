@@ -1,8 +1,7 @@
 import sys
 
-def parse_mendeley_problem_machine_major():
-    print("Paste your Mendeley problem (L1, L2, ... L7-end) now.")
-    print("On Windows, press Ctrl+Z then Enter. On Mac/Linux, press Ctrl+D.")   
+def parse_problem_machine_major():
+    print("Paste your problem (L1, L2, ... L7-end) now.")
     try:
         all_text = sys.stdin.read()
         lines = [line.strip() for line in all_text.splitlines() if line.strip()]        
