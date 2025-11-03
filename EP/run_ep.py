@@ -43,8 +43,8 @@ def run_ep(processing_times, demand_plan, pa, os, generations, tour_size, use_lo
     for gen in range(generations):
         offsprings = []
         for _ in range(os):
-            parents = random.choice(population)
-            child = parents.reproduce()
+            parent = random.choice(population)
+            child = parent.reproduce()
 
             if use_local_search and random.random() < 0.4:
                 child.perm = local_search_insert_once(child.perm, processing_times)

@@ -9,8 +9,7 @@ def parse_problem_machine_major():
             print(f"Error: Not enough data pasted. Expected >= 7 lines, got {len(lines)}.")
             return None
         demand_plan_str = lines[0].split()
-        demand_plan = [int(p) for p in demand_plan_str]
-        
+        demand_plan = [int(p) for p in demand_plan_str]       
         layout_type = lines[1]
         num_machines_L3 = int(lines[2])
         machines_per_line = lines[3]

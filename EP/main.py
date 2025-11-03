@@ -20,11 +20,9 @@ if __name__ == "__main__":
     GENERATIONS = 500
     TOURNAMENT_SIZE = 20    
     USE_LS = False
-    print("--- STARTING EVOLUTIONARY PROGRAMMING (EP) ---")
     print(f"Problem: {M} machines, {N_types} job types, {N_total} total jobs (Mendeley data from STDIN)")
     print(f"Config: pa={PARENTS_COUNT}, os={OFFSPRING_COUNT}, generations={GENERATIONS}, q={TOURNAMENT_SIZE}")
     print(f"Using Local Search (Memetic): {USE_LS}")
-    print("-" * 50) 
 
     best_perm, best_fitness, history = run_ep(
         processing_times=P,
@@ -37,14 +35,15 @@ if __name__ == "__main__":
     )
     
     print("-" * 50)
-    print("--- COMPLETED! ---")
+    print("COMPLETED!")
     print(f"Best makespan found: {best_fitness}")
     print(f"Best permutation (first 50 jobs): {best_perm[:50]}...")   
     print("\nPlotting convergence curve...")
 
     plt.plot(history)
-    plt.title("Algorithm Convergence Curve")
+    plt.style.use('fivethirtyeight')
+    plt.title("EP Convergence Curve")
     plt.xlabel("Generation")
-    plt.ylabel("Best Makespan (Fitness)")
+    plt.ylabel("Fitness")
     plt.grid(True)
     plt.show()
