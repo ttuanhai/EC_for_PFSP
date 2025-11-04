@@ -1,5 +1,5 @@
 import random, math
-from EP.mutation import insertion_mutation, swap_mutation, displacement_mutation, inversion_mutation
+from mutation import insertion_mutation, swap_mutation, displacement_mutation, inversion_mutation
 
 class Individual:
     def __init__(self, perm, p_insert, LMax):

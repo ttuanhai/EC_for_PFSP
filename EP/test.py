@@ -2,6 +2,7 @@ import random, math, sys
 from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 def calculate_makespan(perm, processing_times):
     num_machines = len(processing_times)
@@ -107,13 +108,14 @@ class Individual:
                 new_perm = displacement_mutation(self.perm, self.LMax)
             else:
                 new_perm = inversion_mutation(self.perm)
+        #new_perm = inversion_mutation(self.perm)
                 
         child = Individual(new_perm, self.p_insert, self.LMax)
         child.mutate_strategy()
         return child
 
-def parse_mendeley_problem_machine_major():
-    print("Paste your Mendeley problem (L1, L2, ... L7-end) now.")
+def parse_problem_machine_major():
+    print("Paste your problem (L1, L2, ... L7-end) now.")
     print("On Windows, press Ctrl+Z then Enter. On Mac/Linux, press Ctrl+D.")
     
     try:
@@ -264,7 +266,7 @@ def run_ep(processing_times, demand_plan, pa, os, generations, tour_size, use_lo
 
 if __name__ == "__main__":
 
-    problem_data = parse_mendeley_problem_machine_major()
+    problem_data = parse_problem_machine_major()
 
     if not problem_data:
         print("Exiting due to data loading error.")
@@ -281,10 +283,10 @@ if __name__ == "__main__":
     N_types = len(P[0])
     N_total = sum(demand_plan)
 
-    PARENTS_COUNT = 50      
-    OFFSPRING_COUNT = 200   
+    PARENTS_COUNT = 50       
+    OFFSPRING_COUNT = 200    
     GENERATIONS = 500
-    TOURNAMENT_SIZE = 20    
+    TOURNAMENT_SIZE = 20     
     USE_LS = False
     NUM_RUNS = 10
     
@@ -333,16 +335,42 @@ if __name__ == "__main__":
 
     print("Plotting results...")
     
+    sns.set_theme(style="whitegrid")
+    
+    np_histories = np.array(all_histories)
+    mean_history = np.mean(np_histories, axis=0)
+
     fig, ax = plt.subplots(figsize=(10, 6))
-
-    ax.set_title("Convergence Curves (All Runs)")
-    ax.set_xlabel("Generation")
-    ax.set_ylabel("Best Makespan (Fitness)")
-
+    
     for history in all_histories:
-        ax.plot(history, alpha=0.7)
-        
+        ax.plot(history, alpha=0.3, color='grey', linestyle='--')
+            
+    ax.plot(
+        mean_history, 
+        color='red',
+        linewidth=2,
+        label='Average Best Makespan'
+    )
+            
+    ax.set_title("Algorithm Convergence with Inversion Mutation")
+    ax.set_xlabel("Generation")
+    ax.set_ylabel("Best Makespan")
     ax.grid(True)
+    ax.legend()
+    
+    final_avg_fitness = mean_history[-1]
+    
+    stats_text = (
+        f"Best Makespan: {best_fitness_overall}\n"
+        f"Average Makespan: {final_avg_fitness:.2f}"
+    )
+    
+    ax.text(0.95, 0.95, stats_text,
+            transform=ax.transAxes,
+            fontsize=10,
+            verticalalignment='top',
+            horizontalalignment='right',
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
     
     plt.tight_layout()
     plt.show()
