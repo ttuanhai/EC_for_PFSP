@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from data_loader import parse_problem_machine_major
-from run_ep import run_ep
+from EP.data_loader import parse_problem_machine_major
+from EP.run_ep import run_ep
 
 if __name__ == "__main__":
     problem_data = parse_problem_machine_major()

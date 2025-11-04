@@ -1,5 +1,5 @@
 import random, math
-from operators import op_insert, op_swap, op_block_move, op_block_inversion
+from EP.mutation import insertion_mutation, swap_mutation, displacement_mutation, inversion_mutation
 
 class Individual:
     def __init__(self, perm, p_insert, LMax):
@@ -21,15 +21,15 @@ class Individual:
     def reproduce(self):
         new_perm = None
         if random.random() < self.p_insert:
-            new_perm = op_insert(self.perm)
+            new_perm = insertion_mutation(self.perm)
         else:
             r = random.random()
             if r < 0.33:
-                new_perm = op_swap(self.perm)
+                new_perm = swap_mutation(self.perm)
             elif r < 0.66:
-                new_perm = op_block_move(self.perm, self.LMax)
+                new_perm = displacement_mutation(self.perm, self.LMax)
             else:
-                new_perm = op_block_inversion(self.perm)                
+                new_perm = inversion_mutation(self.perm)                
         child = Individual(new_perm, self.p_insert, self.LMax)
         child.mutate_strategy()
         return child

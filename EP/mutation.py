@@ -1,6 +1,6 @@
 import random
 
-def op_insert(perm):
+def insertion_mutation(perm):
     n = len(perm)
     if n < 2:
         return perm[:]
@@ -13,7 +13,7 @@ def op_insert(perm):
     new_perm.insert(j, job)
     return new_perm
 
-def op_swap(perm):
+def swap_mutation(perm):
     n = len(perm)
     if n < 2:
         return perm[:]
@@ -22,7 +22,7 @@ def op_swap(perm):
     new_perm[i], new_perm[j] = new_perm[j], new_perm[i]
     return new_perm
 
-def op_block_move(perm, LMax):
+def displacement_mutation(perm, LMax):
     n = len(perm)
     safe_LMax = min(LMax, n // 2)
     if safe_LMax < 2:
@@ -36,7 +36,7 @@ def op_block_move(perm, LMax):
     new_perm[j:j] = block
     return new_perm
 
-def op_block_inversion(perm):
+def inversion_mutation(perm):
     n = len(perm)
     if n < 2:
         return perm[:]

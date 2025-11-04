@@ -1,4 +1,4 @@
-from makespan import calculate_makespan
+from EP.makespan import calculate_makespan
 
 def local_search_insert_once(perm, processing_times):
     best_val = calculate_makespan(perm, processing_times)

@@ -14,7 +14,7 @@ def calculate_makespan(perm, processing_times):
                 completion_times[machine] = max(completion_times[machine], completion_times[machine - 1]) + processing_times[machine][job]
     return completion_times[-1]
 
-def op_insert(perm: list) -> list:
+def insertion_mutation(perm: list) -> list:
     n = len(perm)
     if n < 2:
         return perm[:]
@@ -27,7 +27,7 @@ def op_insert(perm: list) -> list:
     new_perm.insert(j, job)
     return new_perm
 
-def op_swap(perm: list) -> list:
+def swap_mutation(perm: list) -> list:
     n = len(perm)
     if n < 2:
         return perm[:]
@@ -36,7 +36,7 @@ def op_swap(perm: list) -> list:
     new_perm[i], new_perm[j] = new_perm[j], new_perm[i]
     return new_perm
 
-def op_block_move(perm: list, LMax: int) -> list:
+def displacement_mutation(perm: list, LMax: int) -> list:
     n = len(perm)
     safe_LMax = min(LMax, n // 2)
     if safe_LMax < 2:
@@ -50,7 +50,7 @@ def op_block_move(perm: list, LMax: int) -> list:
     new_perm[j:j] = block
     return new_perm
 
-def op_block_inversion(perm: list) -> list:
+def inversion_mutation(perm: list) -> list:
     n = len(perm)
     if n < 2:
         return perm[:]
@@ -98,15 +98,15 @@ class Individual:
     def reproduce(self) -> 'Individual':
         new_perm = None
         if random.random() < self.p_insert:
-            new_perm = op_insert(self.perm)
+            new_perm = insertion_mutation(self.perm)
         else:
             r = random.random()
             if r < 0.33:
-                new_perm = op_swap(self.perm)
+                new_perm = swap_mutation(self.perm)
             elif r < 0.66:
-                new_perm = op_block_move(self.perm, self.LMax)
+                new_perm = displacement_mutation(self.perm, self.LMax)
             else:
-                new_perm = op_block_inversion(self.perm)
+                new_perm = inversion_mutation(self.perm)
                 
         child = Individual(new_perm, self.p_insert, self.LMax)
         child.mutate_strategy()
@@ -333,19 +333,16 @@ if __name__ == "__main__":
 
     print("Plotting results...")
     
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-    ax1.set_title("Convergence Curves (All Runs)")
-    ax1.set_xlabel("Generation")
-    ax1.set_ylabel("Best Makespan (Fitness)")
+    ax.set_title("Convergence Curves (All Runs)")
+    ax.set_xlabel("Generation")
+    ax.set_ylabel("Best Makespan (Fitness)")
+
     for history in all_histories:
-        ax1.plot(history, alpha=0.7)
-    ax1.grid(True)
-
-    ax2.set_title(f"Distribution of Final Makespan ({NUM_RUNS} Runs)")
-    ax2.set_ylabel("Final Makespan")
-    ax2.boxplot(final_best_fitnesses)
-    ax2.grid(True)
+        ax.plot(history, alpha=0.7)
+        
+    ax.grid(True)
     
     plt.tight_layout()
     plt.show()

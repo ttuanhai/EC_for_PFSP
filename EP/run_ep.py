@@ -1,7 +1,7 @@
 import random
-from individual import Individual
-from makespan import calculate_makespan
-from local_search import local_search_insert_once
+from EP.individual import Individual
+from EP.makespan import calculate_makespan
+from EP.local_search import local_search_insert_once
 
 def run_ep(processing_times, demand_plan, pa, os, generations, tour_size, use_local_search=True): 
     population = []   
