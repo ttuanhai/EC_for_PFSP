@@ -2,6 +2,7 @@ import random
 from individual import Individual
 from makespan import calculate_makespan
 from local_search import local_search_insert_once
+from neh import neh_heuristic
 
 def run_ep(processing_times, demand_plan, pa, os, generations, tour_size, use_local_search=True): 
     population = []   
@@ -20,9 +21,14 @@ def run_ep(processing_times, demand_plan, pa, os, generations, tour_size, use_lo
     print(f"Problem parsed: {len(processing_times)} machines, {num_job_types} job types, {num_jobs_total} total jobs.")
 
     while len(population) < pa:
-        perm = full_job_list[:]
-        random.shuffle(perm)       
-        p_insert = random.uniform(0.1, 0.9)
+        # perm = full_job_list[:]
+        # random.shuffle(perm)       
+        if len(population) == 0:
+            perm = neh_heuristic(full_job_list, processing_times)
+        else:
+            perm = full_job_list[:]
+            random.shuffle(perm)
+        p_insert = random.uniform(1e-6, 1 - 1e-6)
         LMax = random.randint(2, safe_LMax_init)
         ind = Individual(perm, p_insert, LMax)
         population.append(ind)        
